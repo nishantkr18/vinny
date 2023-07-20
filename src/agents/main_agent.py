@@ -32,6 +32,7 @@ class MainAgent():
             Use the product search tool to look for products in stock.
             Only recommend products that are in stock.
             Keep your answers short and concise. Answer in points.
+            Try to reply in 50 words or less.
             """)
 
             self.conv_hist.append(SystemMessage(content=system_prompt))
