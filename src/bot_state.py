@@ -10,8 +10,9 @@ import json
 from pydantic import BaseModel
 from langchain.schema import BaseMessage, AIMessage, HumanMessage
 
+
 class AgentMemory():
-    def __init__(self, k:int = 5):
+    def __init__(self, k: int = 8):
         self.k = k
         self.memory = []
 
@@ -24,7 +25,6 @@ class AgentMemory():
             self.memory = self.memory[-(self.k-1):]
             # insert first_message
             self.memory.insert(0, first_message)
-        
 
     def __getitem__(self, index: int):
         return self.memory[index]
@@ -39,7 +39,7 @@ class AgentMemory():
 class BotState(BaseModel):
 
     id = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    conv_hist: dict[str, List[BaseMessage]] = {}
+    conv_hist: dict[str, AgentMemory] = {}
     current_agent_index: int = 0
     last_human_input: str = None
     products_list: List[Any] = []
@@ -54,9 +54,10 @@ class BotState(BaseModel):
             except:
                 self.id = username
 
-
     class Config:
         validate_assignment = True
+        # To allow AgentMemory
+        arbitrary_types_allowed = True
 
     def save_to_file(self, file_name: str = None):
         logs_dir = 'convs'
@@ -91,11 +92,13 @@ class BotState(BaseModel):
                 if key == 'conv_hist':
                     # Converting conv_hist dict messages to BaseMessage format after loading
                     for agent_name, messages in value.items():
-                        value[agent_name] = [
-                            _convert_dict_to_message(message) for message in messages]
+                        value[agent_name] = AgentMemory()
+                        for message in messages:
+                            value[agent_name].append(
+                                _convert_dict_to_message(message))
                 # Finally, set all attributes
                 setattr(self, key, value)
-    
+
     def get_conv_hist(self) -> List[dict]:
         conv_hist = []
         for agent_name in self.agent_names:
@@ -107,4 +110,3 @@ class BotState(BaseModel):
                     conv_hist.append(_convert_message_to_dict(message))
 
         return conv_hist
-

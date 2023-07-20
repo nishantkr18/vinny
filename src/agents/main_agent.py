@@ -19,7 +19,7 @@ class MainAgent():
     def __init__(self, state: BotState):
         self.state = state
         if self.name not in self.state.conv_hist:
-            self.state.conv_hist[self.name] = AgentMemory(k=5)
+            self.state.conv_hist[self.name] = AgentMemory()
         self.conv_hist = self.state.conv_hist[self.name]
 
         if len(self.conv_hist) == 0:
