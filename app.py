@@ -35,5 +35,6 @@ def ask():
     return jsonify({'message': bot.ask(input)}), 200
 
 
-if __name__ == '__main__':
-    app.run()
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
