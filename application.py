@@ -16,7 +16,7 @@ def newConnect():
     users.append(username)
     return jsonify({'username': username}), 200
 
-
+ 
 @app.route('/ask', methods=['POST'])
 def ask():
     # Get the current user

@@ -31,7 +31,7 @@ class MainAgent():
             Do not hallucinate about products.
             Use the product search tool to look for products in stock.
             Only recommend products that are in stock.
-            Your output should not contain any link. Also, just use plain text.
+            Keep your answers short and concise. Answer in points.
             """)
 
             self.conv_hist.append(SystemMessage(content=system_prompt))

@@ -21,10 +21,9 @@ class AgentMemory():
 
         # keep the last k messages in memory
         if len(self.memory) > self.k:
-            self.memory = self.memory[-self.k:]
-
-        # insert first_message
-        self.memory.insert(0, first_message)
+            self.memory = self.memory[-(self.k-1):]
+            # insert first_message
+            self.memory.insert(0, first_message)
         
 
     def __getitem__(self, index: int):
