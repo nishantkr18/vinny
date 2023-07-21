@@ -37,4 +37,4 @@ def ask():
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return 'Vinny version 0.0.1'
